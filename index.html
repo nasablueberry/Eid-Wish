@@ -164,7 +164,7 @@
 
     <div class="input-container">
         <h1 class="greeting" id="greeting">Eid Mubarak! ✨</h1>
-        <p>Enter your name to receive a special Eid greeting from me FREND!</p>
+        <p>Enter your name to receive a special Eid greeting!</p>
 
         <div class="input-box">
             <input type="text" id="nameInput" placeholder="Enter your name">
@@ -181,10 +181,11 @@
             <p id="subtext">From <i>Hemel</i></p>
         </div>
         <button onclick="downloadCard()">Download Eid Card</button>
+        <button onclick="recreateGreeting()">Recreate Greeting</button> <!-- Recreate Greeting Button -->
     </div>
 
     <div class="gif-container" id="gif-container">
-        <img src="https://media.giphy.com/media/sznbFuD7MQ4qk0i9r5/giphy.gif?cid=790b7611utdsd0niw3vizaf23rlykmv72ohqqbt6h037jdx2&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Eid Greeting GIF" width="300px">
+        <img src="https://media.giphy.com/media/bj1JNMx5YcEOGzOkV8/giphy.gif?cid=790b7611opitf6ljztfuunpq4u6nopgjhky1qbjggx3lud0o&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Eid Greeting GIF" width="300px">
     </div>
 
     <div class="confetti-container" id="confetti-container"></div>
@@ -231,6 +232,16 @@
                 link.download = "Eid_Greeting.png";
                 link.click();
             });
+        }
+
+        function recreateGreeting() {
+            // Hide the content and reset the form
+            document.getElementById("content").style.display = "none";
+            document.getElementById("nameInput").disabled = false;
+            document.querySelector("button").disabled = false;
+            document.getElementById("nameInput").value = ""; // Clear the input field
+            document.getElementById("gif-container").style.display = "none"; // Hide the GIF
+            document.getElementById("greetingMessage").textContent = "Eid Mubarak! ✨"; // Reset the greeting text
         }
     </script>
 
