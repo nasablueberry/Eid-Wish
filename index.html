@@ -234,8 +234,6 @@
         function submitContact() {
             var contact = document.getElementById("contactInput").value.trim();
             if (contact) {
-                // Use Formspree or another service to handle form submissions
-                // Replace the URL below with your Formspree submission URL
                 fetch("https://formspree.io/f/xblgapnk", {
                     method: "POST",
                     body: JSON.stringify({
