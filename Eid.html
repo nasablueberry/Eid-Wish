@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eid Mubarak Greeting</title>
+    <style>
+        /* Reset some basic styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background-color: #9bb3c9;
+            padding: 20px;
+            position: relative;
+            transition: background-color 1s, color 1s;
+        }
+
+        /* Main container styles */
+        .container {
+            margin-top: 50px;
+            z-index: 2;
+            position: relative;
+            display: none; /* Hide until after the button is clicked */
+        }
+
+        /* Greeting styles */
+        .greeting {
+            font-size: 2.5em;
+            color: #c2cdd8;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* Subtext styles */
+        p {
+            font-size: 1.2em;
+            color: #a6adb4;
+            margin-bottom: 40px;
+        }
+
+        /* Input box */
+        .input-box {
+            margin-top: 20px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 1.2em;
+            border: 2px solid #28a745;
+            border-radius: 25px;
+            outline: none;
+            width: 250px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #1abc9c;
+            box-shadow: 0 0 10px rgba(26, 188, 156, 0.6);
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-left: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1abc9c;
+        }
+
+        /* Overlay styles for darkening */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none;
+            z-index: 1;
+        }
+
+        /* Confetti animation */
+        .confetti-container {
+            position: absolute;
+            z-index: 1;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .star, .moon {
+            font-size: 30px;
+            position: absolute;
+            animation: rise 5s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        .star {
+            color: gold;
+        }
+
+        .moon {
+            color: silver;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(100vh);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Animation for fading in the greeting and input box */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="input-container">
+        <h1 class="greeting" id="greeting">Eid Mubarak! 🌙✨</h1>
+        <p>Enter your name to receive a special Eid greeting!</p>
+
+        <div class="input-box">
+            <input type="text" id="nameInput" placeholder="Enter your name">
+            <button onclick="updateGreeting()">Generate Greeting</button>
+        </div>
+    </div>
+
+    <div class="container" id="content">
+        <div class="greeting" id="greetingMessage"></div>
+        <p id="subtext">Wishing you and your loved ones joy, peace, and prosperity on this special occasion.</p>
+    </div>
+
+    <div class="confetti-container" id="confetti-container"></div>
+
+    <script>
+        function updateGreeting() {
+            var name = document.getElementById("nameInput").value;
+            var overlay = document.getElementById("overlay");
+            var confettiContainer = document.getElementById("confetti-container");
+            var content = document.getElementById("content");
+
+            // Darken the page by showing the overlay and changing background
+            document.body.style.backgroundColor = "#2c3e50"; // Dark background
+            document.body.style.color = "white"; // Text color change to white
+            overlay.style.display = "block";
+
+            // Generate confetti (stars and moons)
+            generateConfetti();
+
+            // Show the new greeting with name
+            if (name.trim() !== "") {
+                document.getElementById("greetingMessage").innerHTML = "Eid Mubarak, " + name + "! 🌙✨";
+            } else {
+                document.getElementById("greetingMessage").innerHTML = "Eid Mubarak! 🌙✨";
+            }
+
+            // Reveal the greeting and subtext
+            content.style.display = "block";
+
+            // Disable input and button after greeting is generated
+            document.getElementById("nameInput").disabled = true;
+            document.querySelector("button").disabled = true;
+        }
+
+        function generateConfetti() {
+            var confettiContainer = document.getElementById("confetti-container");
+
+            // Remove any previous confetti
+            confettiContainer.innerHTML = "";
+
+            // Generate 15 confetti pieces (stars and moons)
+            for (var i = 0; i < 15; i++) {
+                var confettiPiece = document.createElement("div");
+                var type = Math.random() < 0.5 ? "star" : "moon";
+                confettiPiece.classList.add(type);
+                confettiPiece.style.left = Math.random() * 100 + "vw"; // Random horizontal position
+                confettiPiece.style.animationDelay = Math.random() * 2 + "s"; // Random delay for animation
+
+                // Add confetti piece to container
+                confettiContainer.appendChild(confettiPiece);
+            }
+        }
+    </script>
+
+</body>
+</html>
