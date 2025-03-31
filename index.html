@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eid Greeting by Hemel</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2"></script>
     <style>
         * {
             margin: 0;
@@ -48,12 +49,12 @@
         }
 
         .input-box {
-            margin-top: 0px;
+            margin-top: 5px;
             animation: fadeIn 2s ease-out;
         }
 
         input, .contact-input {
-            padding: 12px;
+            padding: 10px;
             font-size: 1.2em;
             border: 2px solid #f1c40f;
             border-radius: 25px;
@@ -95,56 +96,6 @@
             height: 100%;
         }
 
-        .star, .moon, .heart {
-            font-size: 35px;
-            position: absolute;
-            animation: rise 6s ease-in-out infinite, spin 3s linear infinite;
-            opacity: 0;
-        }
-
-        .star {
-            color: gold;
-        }
-
-        .moon {
-            color: silver;
-        }
-
-        .heart {
-            color: #e74c3c;
-        }
-
-        @keyframes rise {
-            0% {
-                transform: translateY(100vh);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh);
-                opacity: 0;
-            }
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .card-container {
             background: rgb(34, 23, 23);
             color: black;
@@ -157,6 +108,17 @@
         .gif-container {
             margin-top: 20px;
             display: none;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -188,10 +150,11 @@
         </div>
         <button onclick="downloadCard()">Download Eid Card</button>
         <button onclick="recreateGreeting()">Recreate Greeting</button>
+        <button onclick="shareOnTwitter()">Share on Twitter</button>
     </div>
 
     <div class="gif-container" id="gif-container">
-        <img src=https://media.giphy.com/media/bj1JNMx5YcEOGzOkV8/giphy.gif?cid=790b7611opitf6ljztfuunpq4u6nopgjhky1qbjggx3lud0o&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Eid Greeting GIF" width="350px">
+        <img src="https://media.giphy.com/media/bj1JNMx5YcEOGzOkV8/giphy.gif?cid=790b7611opitf6ljztfuunpq4u6nopgjhky1qbjggx3lud0o&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="Eid Greeting GIF" width="350px">
     </div>
 
     <div class="confetti-container" id="confetti-container"></div>
@@ -204,7 +167,7 @@
             document.body.style.backgroundColor = "#154360";
             document.getElementById("greetingMessage").textContent = name ? `Eid Mubarak, ${name}! ✨` : "Eid Mubarak! ✨";
             content.style.display = "block";
-            document.getElementById("gif-container").style.display = "block"; // Show the GIF
+            document.getElementById("gif-container").style.display = "block"; 
 
             document.getElementById("nameInput").disabled = true;
             document.querySelector("button").disabled = true;
@@ -214,22 +177,31 @@
         }
 
         function generateConfetti() {
-            var confettiContainer = document.getElementById("confetti-container");
-            confettiContainer.innerHTML = "";
-            for (var i = 0; i < 30; i++) {
-                var confettiPiece = document.createElement("div");
-                var randType = Math.random();
-                if (randType < 0.33) {
-                    confettiPiece.className = "star";
-                } else if (randType < 0.66) {
-                    confettiPiece.className = "moon";
-                } else {
-                    confettiPiece.className = "heart";
+            var duration = 5 * 500; // Confetti duration in milliseconds
+            var animationEnd = Date.now() + duration;
+            var colors = ['#f1c40f', '#e74c3c', '#3498db', '#9b59b6', '#2ecc71'];
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: colors
+                });
+
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: colors
+                });
+
+                if (Date.now() < animationEnd) {
+                    requestAnimationFrame(frame);
                 }
-                confettiPiece.style.left = Math.random() * 100 + "vw";
-                confettiPiece.style.animationDelay = Math.random() * 3 + "s";
-                confettiContainer.appendChild(confettiPiece);
-            }
+            })();
         }
 
         function submitContact() {
@@ -258,7 +230,7 @@
             html2canvas(document.getElementById("card")).then(canvas => {
                 let link = document.createElement("a");
                 link.href = canvas.toDataURL("image/png");
-                link.download = "eid-greeting.png";
+                link.download = "eid-greeting-from_Hemel.png";
                 link.click();
             });
         }
@@ -270,10 +242,17 @@
             document.querySelector("button").disabled = false;
             document.getElementById("nameInput").value = "";
         }
+
+        function shareOnTwitter() {
+            var greetingMessage = document.getElementById("greetingMessage").textContent;
+            var twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(greetingMessage)}&hashtags=EidMubarak`;
+            window.open(twitterUrl, "_blank");
+        }
     </script>
-        <footer style="margin-top: 100px; padding: 10px; background: #020202; text-align: center; color: black; font-size: 1.2em; border-radius: 10px; box-shadow: 0 -5px 10px rgba(255, 215, 0, 0.4);">
-            <p>&copy; 2025 Eid Mubarak Greetings. All rights reserved.</p>
-            <p>Made with ❤️ for EID by <b>ORION</b></p>
-        </footer>
+
+    <footer style="margin-top: 100px; padding: 10px; background: #020202; text-align: center; color: black; font-size: 1.2em; border-radius: 10px; box-shadow: 0 -5px 10px rgba(255, 215, 0, 0.4);">
+        <p>&copy; 2025 Eid Mubarak Greetings. All rights reserved.</p>
+        <p>Made with ❤️ for EID by <b><i>Hemel</i></b></p>
+    </footer>
 </body>
 </html>
