@@ -134,7 +134,7 @@
 
         <p>Enter your bKash number for Eidi:</p>
         <div class="input-box">
-            <input type="text" id="contactInput" placeholder="Enter your bkash number" class="contact-input">
+            <input type="text" id="contactInput" placeholder="Enter number (OPTIONAL)" class="contact-input">
         </div>
 
         <button onclick="updateGreeting()">Generate Greeting</button>
@@ -145,12 +145,12 @@
             <div class="greeting" id="greetingMessage"></div>
             <p id="subtext">Wishing you and your loved ones joy, peace and prosperity on this special occasion.</p>
             <p id="subtext">Hope you have a wonderful Eid-ul-Fitr and all your dua's come true.</p>
-            <p id="subtext">Thank you so much for existing</p>
+            <p id="subtext">Thank you so much for using it :)</p>
             <p id="subtext">~~From <i>Hemel</i></p>
         </div>
         <button onclick="downloadCard()">Download Eid Card</button>
         <button onclick="recreateGreeting()">Recreate Greeting</button>
-        <button onclick="shareOnTwitter()">Share on Twitter</button>
+        <!-- <button onclick="shareOnFacebook()">Share on Facebook</button> -->
     </div>
 
     <div class="gif-container" id="gif-container">
@@ -243,15 +243,17 @@
             document.getElementById("nameInput").value = "";
         }
 
-        function shareOnTwitter() {
-            var greetingMessage = document.getElementById("greetingMessage").textContent;
-            var twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(greetingMessage)}&hashtags=EidMubarak`;
-            window.open(twitterUrl, "_blank");
-        }
+//         function shareOnFacebook() {
+//     var greetingMessage = document.getElementById("greetingMessage").textContent;
+//     var facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(greetingMessage)}`;
+//     window.open(facebookUrl, "_blank");
+// }
+
     </script>
 
-    <footer style="margin-top: 100px; padding: 10px; background: #020202; text-align: center; color: black; font-size: 1.2em; border-radius: 10px; box-shadow: 0 -5px 10px rgba(255, 215, 0, 0.4);">
+    <footer style="margin-top: 100px; padding: 10px; background: #020202; text-align: center; color: black; font-size: 0.8em; border-radius: 10px; box-shadow: 0 -5px 10px rgba(255, 215, 0, 0.4);">
         <p>&copy; 2025 Eid Mubarak Greetings. All rights reserved.</p>
+        <p id="subtext">Here's my <b>bKash</b> if anyone needs it: <b>01739985924</b></p>
         <p>Made with ❤️ for EID by <b><i>Hemel</i></b></p>
     </footer>
 </body>
