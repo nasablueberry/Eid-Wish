@@ -177,7 +177,7 @@
         }
 
         function generateConfetti() {
-            var duration = 5 * 550; // Confetti duration in milliseconds
+            var duration = 5 * 500; // Confetti duration in milliseconds
             var animationEnd = Date.now() + duration;
             var colors = ['#f1c40f', '#e74c3c', '#3498db', '#9b59b6', '#2ecc71'];
 
@@ -227,13 +227,19 @@
         }
 
         function downloadCard() {
-            html2canvas(document.getElementById("card")).then(canvas => {
-                let link = document.createElement("a");
-                link.href = canvas.toDataURL("image/png");
-                link.download = "eid-greeting-from_Hemel.png";
-                link.click();
-            });
-        }
+    // Create a canvas of the card
+    html2canvas(document.getElementById("card")).then(function(canvas) {
+        // Convert canvas to Blob
+        canvas.toBlob(function(blob) {
+            // Create a download link for the Blob
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "eid-greeting-from_Hemel.png";  // File name for download
+            link.click();  // Trigger the download
+        }, "image/png");
+    });
+}
+
 
         function recreateGreeting() {
             document.getElementById("greetingMessage").textContent = "";
@@ -251,10 +257,11 @@
 
     </script>
 
-    <footer style="margin-top: 100px; padding: 10px; background: #020202; text-align: center; color: black; font-size: 0.8em; border-radius: 10px; box-shadow: 0 -5px 10px rgba(255, 215, 0, 0.4);">
-        <p>&copy; 2025 Eid Mubarak Greetings. All rights reserved.</p>
-        <p id="subtext">Here's my <b>bKash</b> if anyone needs it: <b>01739985924</b></p>
-        <p>Made with ❤️ for EID by <b><i>Hemel</i></b></p>
-    </footer>
+<footer style="margin-top: 100px; padding: 20px; background: #020202; text-align: center; color: white; font-size: 1em; border-radius: 10px; box-shadow: 0 -5px 10px rgba(255, 215, 0, 0.4);">
+    <p style="margin-bottom: 10px; font-weight: bold;">&copy; 2025 Eid Mubarak Greetings. All rights reserved.</p>
+    <p style="margin-bottom: 10px;">Here's my <b>bKash</b> if anyone needs it: <b>01739985924</b></p>
+    <p>Made with ❤️ for EID by <b><i>Hemel</i></b></p>
+</footer>
+
 </body>
 </html>
